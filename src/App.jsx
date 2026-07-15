@@ -22,7 +22,7 @@ export default function App() {
   return (
     <AuthProvider>
       <ScannerAuthProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
+        <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
           <Routes>
             <Route element={<PublicLayout />}>
               <Route index element={<HomePage />} />

@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-export default defineConfig(({ command, mode }) => {
-  const isProd = mode === 'production'
+export default defineConfig(({ command }) => {
+  // Vercel = "/". VPS (chemin /stic/) = définir VITE_BASE=/stic/ au build.
+  const base = process.env.VITE_BASE || '/'
+
   return {
-    base: isProd ? '/stic/' : '/',
+    base,
     plugins: [
       react(),
       tailwindcss(),
