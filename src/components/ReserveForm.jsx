@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { publicApi } from '../api/client'
 import { ErrorBanner, FieldError, Spinner } from './ui'
 
-const MAX_PHOTO_BYTES = 10 * 1024 * 1024
+const MAX_PHOTO_BYTES = 20 * 1024 * 1024
 
 const initial = {
   email: '',
@@ -42,8 +42,8 @@ export default function ReserveForm({ slug, onSuccess }) {
       if (preview) URL.revokeObjectURL(preview)
       setPreview(null)
       e.target.value = ''
-      setErrors({ photo: ['La photo ne doit pas dépasser 10 Mo.'] })
-      setError('La photo est trop volumineuse (max. 10 Mo).')
+      setErrors({ photo: ['La photo ne doit pas dépasser 20 Mo.'] })
+      setError('La photo est trop volumineuse (max. 20 Mo).')
       return
     }
 
@@ -66,8 +66,8 @@ export default function ReserveForm({ slug, onSuccess }) {
     }
 
     if (form.photo.size > MAX_PHOTO_BYTES) {
-      setErrors({ photo: ['La photo ne doit pas dépasser 10 Mo.'] })
-      setError('La photo est trop volumineuse (max. 10 Mo).')
+      setErrors({ photo: ['La photo ne doit pas dépasser 20 Mo.'] })
+      setError('La photo est trop volumineuse (max. 20 Mo).')
       setSubmitting(false)
       return
     }
@@ -201,7 +201,7 @@ export default function ReserveForm({ slug, onSuccess }) {
             className="block w-full text-sm text-ink-soft file:mr-3 file:rounded-lg file:border-0 file:bg-mist file:px-3 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-line"
             required
           />
-          <p className="mt-1 text-xs text-ink-soft">JPG, PNG ou WEBP — 10 Mo maximum.</p>
+          <p className="mt-1 text-xs text-ink-soft">JPG, PNG ou WEBP — 20 Mo maximum.</p>
           <FieldError errors={errors} name="photo" />
           {preview && (
             <img
