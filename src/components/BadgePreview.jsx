@@ -1,10 +1,13 @@
+import { resolvePhotoUrl } from '../api/client'
+
 export default function BadgePreview({ reservation }) {
   if (!reservation?.code) return null
 
   const apiBase = import.meta.env.VITE_API_URL || '/api'
-  const previewUrl =
+  const previewUrl = resolvePhotoUrl(
     reservation.preview_url ||
-    `${apiBase}/badges/${encodeURIComponent(reservation.code)}/preview`
+      `${apiBase}/badges/${encodeURIComponent(reservation.code)}/preview`
+  )
 
   return (
     <div className="w-full max-w-[420px] mx-auto">

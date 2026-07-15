@@ -18,19 +18,31 @@ export function setScannerToken(token) {
   else localStorage.removeItem('scanner_token')
 }
 
-export function resolvePhotoUrl(photoUrl) {
-  if (!photoUrl) return null
-  if (photoUrl.startsWith('http')) {
+/**
+ * Rewrite absolute backend URLs (/stic/storage, /stic/api, …) to same-origin
+ * paths so HTTPS frontends (Vercel) avoid mixed-content blocks.
+ */
+export function resolvePhotoUrl(url) {
+  if (!url) return null
+
+  const toSameOrigin = (path) => {
+    const storage = path.match(/(\/storage\/.+)$/)
+    if (storage) return storage[1]
+    const api = path.match(/(\/api\/.+)$/)
+    if (api) return api[1]
+    return null
+  }
+
+  if (url.startsWith('http://') || url.startsWith('https://')) {
     try {
-      const u = new URL(photoUrl)
-      // Prefer same-origin /storage proxy when path matches
-      if (u.pathname.startsWith('/storage')) return u.pathname
-      return photoUrl
+      const rewritten = toSameOrigin(new URL(url).pathname)
+      return rewritten || url
     } catch {
-      return photoUrl
+      return url
     }
   }
-  return photoUrl
+
+  return toSameOrigin(url) || url
 }
 
 async function parseResponse(response) {
